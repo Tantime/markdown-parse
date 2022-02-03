@@ -35,6 +35,14 @@ public class MarkdownParseTest {
         Path fileName = Path.of("test-file3.md");
 	    String contents = Files.readString(fileName);
         ArrayList<String> links = MarkdownParse.getLinks(contents);
-        assertEquals(List.of("link.com"), links);
+        assertEquals(List.of("Could not find open bracket! \n Expected link format: [link](link.com)"), links);
+    }
+
+    @Test
+    public void getLinks4() throws IOException {
+        Path fileName = Path.of("test-file4.md");
+	    String contents = Files.readString(fileName);
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        assertEquals(List.of("Could not find open parenthesis! \n Expected link format: [link](link.com)"), links);
     }
 }

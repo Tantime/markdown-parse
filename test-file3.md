@@ -1,1 +1,1 @@
-check it out here: ([enclosed link!](will this break? hmm))
+Check it out here: ( [link](link.com) )
