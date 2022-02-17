@@ -45,4 +45,44 @@ public class MarkdownParseTest {
         ArrayList<String> links = MarkdownParse.getLinks(contents);
         assertEquals(List.of("Could not find open parenthesis! \n Expected link format: [link](link.com)"), links);
     }
+
+    // week 7 quiz tests
+    @Test
+    public void testSingleImage() throws IOException {
+        String contents= Files.readString(Path.of("./test-single-image.md"));
+        List<String> expect = List.of();
+        assertEquals(MarkdownParse.getLinks(contents), expect);
+    }
+
+    @Test
+    public void testLinkAtBeginning() {
+        String contents= "[link title](a.com)";
+        List<String> expect = List.of("a.com");
+        assertEquals(MarkdownParse.getLinks(contents), expect);
+    }
+
+    @Test
+    public void testSpaceInURL() {
+        String contents = "[title](space in-url.com)";
+        List<String> expect = List.of();
+        assertEquals(MarkdownParse.getLinks(contents), expect);
+    }
+    @Test
+    public void testSpaceAfterParen() {
+        String contents = "[title]( space-in-url.com)";
+        List<String> expect = List.of("space-in-url.com");
+        assertEquals(expect, MarkdownParse.getLinks(contents));
+    }
+    @Test
+    public void testSpaceBeforeParen() {
+        String contents = "[title]   (should-not-count.com)";
+        List<String> expect = List.of();
+        assertEquals(MarkdownParse.getLinks(contents), expect);
+    }
+    @Test
+     public void testMissingCloseParen() {
+         String contents= "[link title](a.com";
+         List<String> expect = List.of();
+         assertEquals(MarkdownParse.getLinks(contents), expect);
+     }
 }
