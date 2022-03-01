@@ -35,7 +35,8 @@ public class MarkdownParseTest {
         Path fileName = Path.of("test-file3.md");
 	    String contents = Files.readString(fileName);
         ArrayList<String> links = MarkdownParse.getLinks(contents);
-        assertEquals(List.of("Could not find open bracket! \n Expected link format: [link](link.com)"), links);
+        assertEquals(List.of("Could not find open bracket!" + 
+            "\n Expected link format: [link](link.com)"), links);
     }
 
     @Test
@@ -43,13 +44,15 @@ public class MarkdownParseTest {
         Path fileName = Path.of("test-file4.md");
 	    String contents = Files.readString(fileName);
         ArrayList<String> links = MarkdownParse.getLinks(contents);
-        assertEquals(List.of("Could not find open parenthesis! \n Expected link format: [link](link.com)"), links);
+        assertEquals(List.of("Could not find open parenthesis!" +
+            "\n Expected link format: [link](link.com)"), links);
     }
 
     // week 7 quiz tests
     @Test
     public void testSingleImage() throws IOException {
-        String contents= Files.readString(Path.of("./test-single-image.md"));
+        Path fileName = Path.of("./test-single-image.md");
+        String contents= Files.readString(fileName);
         List<String> expect = List.of();
         assertEquals(MarkdownParse.getLinks(contents), expect);
     }
@@ -80,9 +83,32 @@ public class MarkdownParseTest {
         assertEquals(MarkdownParse.getLinks(contents), expect);
     }
     @Test
-     public void testMissingCloseParen() {
-         String contents= "[link title](a.com";
-         List<String> expect = List.of();
-         assertEquals(MarkdownParse.getLinks(contents), expect);
-     }
+    public void testMissingCloseParen() {
+        String contents = "[link title](a.com";
+        List<String> expect = List.of();
+        assertEquals(MarkdownParse.getLinks(contents), expect);
+    }
+    @Test
+    public void testSnippet1() throws IOException {
+        Path fileName = Path.of("snippet1.md");
+        String contents = Files.readString(fileName);
+        List<String> expect = List.of("another link", "cod[e, code]");
+        assertEquals(MarkdownParse.getLinks(contents), expect);
+    }
+    @Test
+    public void testSnippet2() throws IOException {
+        Path fileName = Path.of("snippet2.md");
+        String contents = Files.readString(fileName);
+        List<String> expect = List.of("nested link, a nested parenthesized " +
+            "url, some escaped [ brackets ]");
+        assertEquals(MarkdownParse.getLinks(contents), expect);
+    }
+    @Test
+    public void testSnippet3() throws IOException {
+        Path fileName = Path.of("snippet3.md");
+        String contents = Files.readString(fileName);
+        List<String> expect = List.of("this title text is really long and " +
+            "takes up more than one line");
+        assertEquals(MarkdownParse.getLinks(contents), expect);
+    }
 }
