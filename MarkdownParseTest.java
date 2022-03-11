@@ -94,7 +94,7 @@ public class MarkdownParseTest {
         Path fileName = Path.of("snippet1.md");
         System.out.println(fileName.toAbsolutePath());
         String contents = Files.readString(fileName);
-        List<String> expect = List.of("another link", "cod[e, code]");
+        List<String> expect = List.of("google.com", "google.com", "ucsd.edu");
         assertEquals(MarkdownParse.getLinks(contents), expect);
     }
     @Test
@@ -102,8 +102,7 @@ public class MarkdownParseTest {
         Path fileName = Path.of("snippet2.md");
         System.out.println(fileName.toAbsolutePath());
         String contents = Files.readString(fileName);
-        List<String> expect = List.of("nested link, a nested parenthesized " +
-            "url, some escaped [ brackets ]");
+        List<String> expect = List.of("a.com", "a.com(())", "example.com");
         assertEquals(MarkdownParse.getLinks(contents), expect);
     }
     @Test
@@ -111,8 +110,7 @@ public class MarkdownParseTest {
         Path fileName = Path.of("snippet3.md");
         System.out.println(fileName.toAbsolutePath());
         String contents = Files.readString(fileName);
-        List<String> expect = List.of("this title text is really long and " +
-            "takes up more than one line");
+        List<String> expect = List.of("https://ucsd-cse15l-w22.github.io");
         assertEquals(MarkdownParse.getLinks(contents), expect);
     }
 }
