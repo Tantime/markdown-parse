@@ -13,19 +13,19 @@ public class MarkdownParse {
         int currentIndex = 0;
         while(currentIndex < markdown.length()) {
             int nextOpenBracket = markdown.indexOf("[", currentIndex);
+            int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
+            int openParen = markdown.indexOf("(", nextCloseBracket);
+            int closeParen = markdown.indexOf(")", openParen);
             if(nextOpenBracket == -1) {
                 throw new NoSuchElementException("Could not find open bracket! \n Expected link format: [link](link.com)");
             }
-            int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
-            if(nextOpenBracket == -1) {
+            if(nextCloseBracket == -1) {
                 throw new NoSuchElementException("Could not find closed bracket! \n Expected link format: [link](link.com)");
             }
-            int openParen = markdown.indexOf("(", nextCloseBracket);
-            if(nextOpenBracket == -1) {
+            if(openParen == -1) {
                 throw new NoSuchElementException("Could not find open parenthesis! \n Expected link format: [link](link.com)");
             }
-            int closeParen = markdown.indexOf(")", openParen);
-            if(nextOpenBracket == -1) {
+            if(closeParen == -1) {
                 throw new NoSuchElementException("Could not find closed parenthesis! \n Expected link format: [link](link.com)");
             }
             toReturn.add(markdown.substring(openParen + 1, closeParen));
